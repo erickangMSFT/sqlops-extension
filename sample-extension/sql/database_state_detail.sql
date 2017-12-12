@@ -1,0 +1,1 @@
+SELECT name, [state], state_desc, user_access_desc FROM sys.databases;

@@ -1,0 +1,125 @@
+{
+    "name": "sample-insight",
+    "version": "0.1.0",
+    "publisher": "sampleinsight",
+    "engines": {
+        "vscode": "*"
+    },
+    "contributes": {
+        "insights": [
+            {
+                "id": "azure-dtu-usage-sample",
+                "contrib": {
+                    "type": {
+                        "scatter": {
+                            "dataType": "point",
+                            "dataDirection": "vertical"
+                        }
+                    },
+                    "queryFile": "./sql/dtu_usage_azure.sql"
+                }
+            },
+            {
+                "id": "query-data-store-sample",
+                "contrib": {
+                    "type": {
+                        "timeSeries": {
+                            "dataDirection": "horizontal",
+                            "dataType": "point",
+                            "legendPosition": "top",
+                            "labelFirstColumn": false,
+                            "columnsAsLabels": false
+                        }
+                    },
+                    "queryFile": "./sql/qds.sql",
+                    "details": {
+                        "queryFile": "./sql/qds_detail.sql",
+                        "label": {
+                            "icon": "file",
+                            "column": "query_id",
+                            "state": []
+                        },
+                        "value": "max_duration"
+                    }
+                }
+            },
+            {
+                "id": "database-state-sample",
+                "contrib": {
+                    "type": {
+                        "doughnut": {
+                            "dataDirection": "horizontal",
+                            "dataType": "number",
+                            "legendPosition": "top",
+                            "labelFirstColumn": false,
+                            "columnsAsLabels": false
+                        }
+                    },
+                    "queryFile": "./sql/database_state.sql",
+                    "details": {
+                        "queryFile": "./sql/database_state_detail.sql",
+                        "label": {
+                            "icon": "database",
+                            "column": "name",
+                            "state": [
+                                {
+                                    "condition": {
+                                        "if": "equals",
+                                        "equals": "0"
+                                    },
+                                    "color": "green"
+                                },
+                                {
+                                    "condition": {
+                                        "if": "greaterThan",
+                                        "equals": "0"
+                                    },
+                                    "color": "red"
+                                }
+                            ]
+                        },
+                        "value": "state",
+                        "actions": {
+                            "database": "${name}",
+                            "types": [
+                                "restore"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": "missing-index-pk-sample",
+                "contrib": {
+                    "type": {
+                        "count": null
+                    },
+                    "queryFile": "./sql/missing_index_pk.sql",
+                    "details": {
+                        "queryFile": "./sql/index_suggestions.sql",
+                        "label": {
+                            "column": "TableName",
+                            "state": [
+                                {
+                                    "condition": {
+                                        "if": "equals",
+                                        "equals": "Create Primary Keys"
+                                    },
+                                    "color": "orange"
+                                },
+                                {
+                                    "condition": {
+                                        "if": "always",
+                                        "equals": "Create Index"
+                                    },
+                                    "color": "maroon"
+                                }
+                            ]
+                        },
+                        "value": "Suggestion"
+                    }
+                }
+            }
+        ]
+    }
+}
